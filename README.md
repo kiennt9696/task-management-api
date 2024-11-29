@@ -89,8 +89,8 @@ A role now may have multiple permissions
 
 | Role | view task basic     |  view task advanced    |  update status of assigned tasks only     | assign tasks for others|
 |------------|------------|------------|------------|-----------|
-| Employer  |    x   |     | x     |        |
-| Employee    | x    | x    | x     |     x |
+| Employee  |    x   |     | x     |        |
+| Employer    | x    | x    | x     |     x |
 
 Users then are assigned to roles
 
@@ -113,6 +113,7 @@ Let's see how data is stored in database
 
 Service __Saftekeeper__ follows these rules to determine where it will grant access token to client when they request it or not.
 The authorization combining __oauth2__ and __RBAC__ now is as follows.
+
 ![](images/oauth2_with_rbac.png)
 
 Note: In my implementation, RBAC and Oauth2 flow are implemented in the same project __Safekeeper__. Later, we can decompose this to scale out if needed.  
@@ -129,6 +130,7 @@ before allowing function execution.
 
 ## 2. Task Management Flow
 ### 2.1 Database design
+
 ![](images/task_management_db.png)
 
 Tables and meaning:
@@ -161,6 +163,7 @@ Employer has this permission, so I put a field called __approver__ in __Transiti
 this situation.
 
 ![img_3.png](img_3.png)
+
 ### 2.2 Functions and API design in the system
 #### 2.2.1 Add user
 ```JSON
@@ -243,7 +246,9 @@ response: {
 Error when using access token with wrong scopes:
 
 ![img_2.png](images/img_2.png)
+
 #### 2.2.5 Get all tasks (Employer)
+
 ![img_9.png](images/img_9.png)
 ```JSON
 POST http://127.0.0.1:5002/v1/task/all
@@ -366,10 +371,10 @@ CREATE INDEX idx_user_role ON User(role); # This table is different from table U
 CREATE INDEX idx_task_compound ON Task(assignee, status_id);
 ```
 
-In my design Database for Authentication, Authorization and Task API are dependent for ease of scaling when system grows up.
+In my design, databases for Authentication, Authorization and Task API are dependent for ease of scaling when system grows up.
 Therefore, table User and table Task lies on different databases, some validation can be done in application layer.
 I do not directly join Task with User and other RBAC tables to filter if they are Employee or not. Instead, 
-I use a brief precomputing table User in Task Service's Database with enough info (username, role) to join then compute
+I use a brief precomputing table User in Task Service's database with enough info (username, role) to join then compute
 summary report efficiently. I use CDC mechanism to reflect changes from real User database to User in Task Service.
 However, when data grows up by time this query increases load and decrease system performance even with indexing.
 I suggest the following approaches when facing that:
