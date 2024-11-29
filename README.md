@@ -89,8 +89,8 @@ A role now may have multiple permissions
 
 | Role | view task basic     |  view task advanced    |  update status of assigned tasks only     | assign tasks for others|
 |------------|------------|------------|------------|-----------|
-| Employer  |    x   |     | x     |        |
-| Employee    | x    | x    | x     |     x |
+| Employee  |    x   |     | x     |        |
+| Employer    | x    | x    | x     |     x |
 
 Users then are assigned to roles
 
