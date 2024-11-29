@@ -1,0 +1,15 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+participant Client
+participant TaskService
+participant "Resource (Database)" as RD
+Client -> TaskService: request to access resource with access token (JWT)
+TaskService -> TaskService: verify JWT signature, expiry time, etc and required scopes
+TaskService -> RD: verified
+RD -> TaskService: data
+TaskService -> Client: succeeded/failed to manipulate resources
+
+
+@enduml

@@ -1,0 +1,20 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+'participant "Safekeeper" as User
+'participant "QuizPlay Service" as QP
+'participant "Redis Cluster" as RC
+'participant "Postgres Cluster" as DB
+'participant "Vocabulary Quiz Service" as VS
+'participant "Realtime Notification" as NS
+'participant "Leaderboard Service" as LS
+
+autonumber
+
+Client -> Authenticator: send credentials (username, password)
+Authenticator -> Client: verify and return session_token for client
+Client -> Safekeeper: send session_token
+Safekeeper -> Client: verify the session_token and return authorization_code via redirect
+Client -> Safekeeper: exchange authorization_code to get access_token (scopes)
+Safekeeper -> Client: verify user's permission with RBAC and grant access_token to desired resources
+
+@enduml

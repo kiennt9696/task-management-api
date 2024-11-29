@@ -1,0 +1,16 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+Client -> Authenticator: send username, password
+Authenticator -> Client: verify and return login session token (JWT)
+Client -> RBAC:  get role/permission/scopes (verify using login session token (JWT))
+RBAC -> Client: Return info on user role/permission/scopes
+Client -> Safekeeper: send session token to get authorization code
+Safekeeper -> Client: return authorization code
+Client -> Safekeeper: ask for access token for scopes by exchanging authorization code
+Safekeeper -> RABC: verify privileges
+RABC -> Safekeeper: verified
+Safekeeper -> Client: Generate & return access token
+@enduml

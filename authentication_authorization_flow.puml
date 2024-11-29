@@ -1,0 +1,110 @@
+@startuml
+!define Table(name, description) class name as "description" << (T,#FFAAAA) >>
+
+entity AuditTable {
+  + created_at : DATETIME
+  + updated_at : DATETIME
+  + updated_by : VARCHAR
+}
+
+entity User {
+  + id : VARCHAR <<PK>>
+  --
+  * username : VARCHAR
+  * email : VARCHAR
+  * phone: VARCHAR
+  * firstname : VARCHAR
+  * lastname : VARCHAR
+  * _data: JSONB
+}
+
+entity Client {
+  + id : VARCHAR <<PK>>
+  --
+  * name : VARCHAR
+  * description : VARCHAR
+  * secret : VARCHAR
+  * redirect_uri: VARCHAR
+  * login_type: VARCHAR
+}
+
+entity Role {
+  + id : VARCHAR <<PK>>
+  --
+  * name : VARCHAR
+  * description : VARCHAR
+  * client_id: VARCHAR <<FK>>
+  * _data: JSONB
+}
+
+entity UserRole {
+  + user_id : INT <<PK, FK>>
+  + role_id : INT <<PK, FK>>
+}
+
+entity ClientRole {
+  + client_id : INT <<PK, FK>>
+  + role_id : INT <<PK, FK>>
+}
+
+entity Permission {
+ + id: VARCHAR <<PK>>
+ --
+ * name : VARCHAR
+ * description : VARCHAR
+ * client_id : VARCHAR <<FK>>
+ * object_id: VARCHAR <<FK>>
+ * action_id: VARCHAR <<FK>>
+ * _data : JSONB
+}
+
+entity PermissionObject {
+ + id : VARCHAR <<PK>>
+ --
+ * name : VARCHAR
+}
+
+entity PermissionAction {
+  + id : VARCHAR <<PK>>
+  --
+  * name : VARCHAR
+}
+
+entity Scope {
+  + id : VARCHAR <<PK>>
+  --
+  * name: VARCHAR
+}
+
+entity PermissionScope {
+  + permission_id: VARCHAR <<PK, FK>>
+  + scope_id: VARCHAR <<PK, FK>>
+}
+
+entity RolePermission {
+  + role_id: VARCHAR <<PK, FK>>
+  + permission_id: VARCHAR <<PK, FK>>
+}
+
+' Relationships
+User ||--o{ UserRole : "assigned"
+Role ||--o{ UserRole : "has"
+Client ||--o{ ClientRole : "has"
+Role ||--o{ ClientRole : "has"
+Permission ||--o| PermissionObject : "has"
+Permission ||--o| PermissionAction : "has"
+Permission ||--o{ PermissionScope: "has"
+Scope ||--o{ PermissionScope: "belongs to"
+Role ||--o{ RolePermission: "has"
+Permission ||--o{ RolePermission: "belongs to"
+
+User --|> AuditTable
+Role --|> AuditTable
+Client --|> AuditTable
+Permission --|> AuditTable
+PermissionAction --|> AuditTable
+PermissionScope --|> AuditTable
+Scope --|> AuditTable
+RolePermission --|> AuditTable
+
+@enduml
