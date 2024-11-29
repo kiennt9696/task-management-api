@@ -377,5 +377,107 @@ The solutions I suggest includes:
 - Archival Service: for this system we prioritize tasks with task not completed. For completed ones, 
   they are rarely modified and eventual consistency is acceptable so let's move them to
 another database such as Cassandra. This makes Postgres performance improved and stable. 
+  
+### 4. Technologies and Patterns
+#### 4.1 Language and frameworks
+I use Python Flask with Connexion to leverage defining API endpoints, input validation, and documentation in a OpenAPI specification file.
+#### 4.2 Database
+I use Postgres for storage, combining with SQLAchemy ORM.
+#### 4.3 Project structures and layers
+```html
+│   app.py
+│   extension.py
+│   __init__.py
+│   __main__.py
+│
+├───controllers
+│       healthz.py
+│       task.py
+│       __init__.py
+│
+├───infras
+│   │   __init__.py
+│   │
+│   └───db
+│           connection.py
+│           __init__.py
+│
+├───interfaces
+│   │   __init__.py
+│   │
+│   └───repositories
+│           task.py
+│           workflow.py
+│           __init__.py
+│
+├───middlewares
+│       token_validator.py
+│       __init__.py
+│
+├───models
+│       __init__.py
+│
+├───openapi
+│       swagger.yaml
+│
+├───repositories
+│       task.py
+│       workflow.py
+│       __init__.py
+│
+├───schemas
+│       schema.py
+│       __init__.py
+│
+├───scripts
+│       crawl_data.py
+│       index.sql
+│       init_db_tables.sql
+│       init_model.py
+│       init_workflow.py
+│       workflow_base_data.json
+│
+├───services
+│       task.py
+│       workflow.py
+│       __init__.py
+│
+└───tests
+    │   test_alive_controller.py
+    │   __init__.py
+    │
+    └───helpers
+            test_helper.py
+```
+I split my project into 5 main layers:
+1. __Routing and validation__ request params are handled by Connexion with OpenAPI. 
+   The security checking for matching scope is also handled here where I injected a token validator handler in __middlewares__.
+   
+2. __Controller Layer__: This layer receives requests, extracts params and calls __Service Layer__ to perform the right business functions.
+3. __Service Layer (Use case)__: This layer handles all business logic functions such as verifying workflow, changing task statuses via interacting with __Repository__ to perform read/write to databases or external systems.
+   In this layer, I use __marshmallow__ to dump data to json before returning data to clients
+4. __Repository Layer__: This layer only execute naive CRUD operations to database without any complicated logic.
+5. __Infras__: Handle connections to a specific kind of database, i.e Postgres in my case.
 
+Each layer does not interact directly with each other but interfaces that are defined in package __interfaces__. In this
+way it helps the code well-organized and easy to mock when writing tests using DI.  
 
+Other components including:
+- __extensions__: setup 2 middlewares (logger & prometheus for collecting performance metrics in service)
+- __models and schemas__: define models and schemas for tables in database for data serialization and deserialization
+- __scripts__: script files, data for initializing base data for system such as task workflow, RBAC.
+- __tests__: unittests/tests for every thing.
+
+I also set up a common package that contains common functions on token, api_error_handler used across all of my 3 projects.
+
+![img.png](img.png)
+
+Let's say, I have an api error handler in _common-utils_:
+
+![img_1.png](img_1.png)
+
+then, it is plugged in any Flask project to use:
+
+![img_2.png](img_2.png)
+
+This way I can organize my code efficiently.
