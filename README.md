@@ -61,8 +61,8 @@ therefore multiple __Scope__
 For example, with this design, a user may have multiple roles: Student, Librarian. Librarian has access
 to Books and Borrower. For a book, one who owns it may lend the book or sell it. Let's say Alice has permission with
 action "sell" of resource "book" then she can lend the book to others as well. Sometimes, an action on a resource
-may imply some other operations. That's why I introduce a fine-grained level of access control, with the above example then
-for action (sell) on object (book) it has 2 scopes: sell:book, lend:book. With each scope, a separate logic business is
+may imply some other operations. That's why I introduce a fine-grained level of access control with scopes. In the above example,
+for action (sell) on resource (book) it has 2 scopes: sell:book, lend:book. With each scope, a separate logic business is
 performed. This architecture is extendable and may be applied to complicated systems.
 
 ### 1.3 How this design work with Task Management System
