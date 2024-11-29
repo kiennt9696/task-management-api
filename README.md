@@ -489,7 +489,7 @@ way it helps the code well-organized and easy to mock when writing tests using D
 Other components including:
 - __extensions__: setup 2 middlewares (logger & __prometheus__ for collecting performance metrics in service).
 - __models and schemas__: define models and schemas for tables in database for data serialization and deserialization.
-- __scripts__: script files, data for initializing base data for system such as task workflow, RBAC.
+- __scripts__: script files, data for initializing base data for system such as task workflow, RBAC. This is useful materials when packing the service using Ansible or similar tools.
 - __tests__: unittests/tests for every thing.
 - __alembic__: for migrating database changes.
 
