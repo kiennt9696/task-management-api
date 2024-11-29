@@ -32,7 +32,7 @@ which is the goal of this assignment.
 ### 1.2 Database design for RBAC
 
 ![](images/authentication_authorization_flow.png)
-Tables and their meaning:
+Tables and their meanings:
 
 - __User__: store user info
 
@@ -84,6 +84,7 @@ The problem now is as modeled as follows. There are basic permissions on resourc
 | view task advanced    | task    | su_view    |su_read:task     |
 | update status of assigned tasks only    | task    | update    |edit:task     |
 | assign tasks for others    | task    | su_update    |su_edit:task     |
+
 Let's fulfill this table for other business requirements. When the system grows and, features become complex
 we can extend multiple scope for one action.
 
