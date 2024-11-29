@@ -113,6 +113,7 @@ Let's see how data is stored in database
 
 Service __Saftekeeper__ follows these rules to determine where it will grant access token to client when they request it or not.
 The authorization combining __oauth2__ and __RBAC__ now is as follows.
+
 ![](images/oauth2_with_rbac.png)
 
 Note: In my implementation, RBAC and Oauth2 flow are implemented in the same project __Safekeeper__. Later, we can decompose this to scale out if needed.  
@@ -129,6 +130,7 @@ before allowing function execution.
 
 ## 2. Task Management Flow
 ### 2.1 Database design
+
 ![](images/task_management_db.png)
 
 Tables and meaning:
@@ -161,6 +163,7 @@ Employer has this permission, so I put a field called __approver__ in __Transiti
 this situation.
 
 ![img_3.png](img_3.png)
+
 ### 2.2 Functions and API design in the system
 #### 2.2.1 Add user
 ```JSON
@@ -243,7 +246,9 @@ response: {
 Error when using access token with wrong scopes:
 
 ![img_2.png](images/img_2.png)
+
 #### 2.2.5 Get all tasks (Employer)
+
 ![img_9.png](images/img_9.png)
 ```JSON
 POST http://127.0.0.1:5002/v1/task/all
