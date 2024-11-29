@@ -467,6 +467,7 @@ Other components including:
 - __models and schemas__: define models and schemas for tables in database for data serialization and deserialization
 - __scripts__: script files, data for initializing base data for system such as task workflow, RBAC.
 - __tests__: unittests/tests for every thing.
+- __alembic__: for migrating database changes
 
 I also set up a common package that contains common functions on token, api_error_handler used across all of my 3 projects.
 
