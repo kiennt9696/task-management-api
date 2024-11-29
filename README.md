@@ -20,6 +20,7 @@ this system for authorization with RBAC. The flow is as follows:
 
 __Authenticator__: is the authentication service, verifies users' username & password
 then return a session token that represents a user login session.
+
 __Safekeeper__: is the authorization server, receives a session token from __Client__
 verify then grant _access token_ if RBAC is satisfied.
 
