@@ -86,26 +86,26 @@ The problem now is as modeled as follows. There are basic permissions on resourc
 | assign tasks for others    | task    | su_update    |su_edit:task     |
 
 Let's fulfill this table for other business requirements. When the system grows and, features become complex
-we can extend multiple scope for one action.
+we can extend multiple scopes for one action.
 
-The service Saftekeeper follows these rules to determine where it will grant access token to client when they request it or not.
-The authorization combining oauth2 and RBAC now is as follows.
+The service __Saftekeeper__ follows these rules to determine where it will grant access token to client when they request it or not.
+The authorization combining __oauth2__ and __RBAC__ now is as follows.
 ![](images/oauth2_with_rbac.png)
 
-Note: In my implementation, RBAC and Oauth2 flow are implemented in the same project __Safekeeper__. Later we can decompose this to scale out if needed.  
+Note: In my implementation, RBAC and Oauth2 flow are implemented in the same project __Safekeeper__. Later, we can decompose this to scale out if needed.  
 
 So far, the process I have mentioned is just a half of the final solution for this problem. 
 The next part is how Task API service interacts with __scopes__ to accommodate the problem requirements.
 
-In Task API service, now, it defines APIs that perform the business logic functions, such as view assigned tasks only, view all tasks, etc.
+In __Task API service__, now, it defines APIs that perform the business logic functions, such as view assigned tasks only, view all tasks, etc.
 However, for each endpoint of these APIs, it is assigned with a specific scope for each function as I mentioned in the above permission table.
 The Task API service then needs to validate the access token first to check whether it is a valid token then includes the right scope for the endpoint
 before allowing function execution.
 
 ![](images/scope_validation.png)
 
-##2. Task Management Flow
-###2.1 Database design
+## 2. Task Management Flow
+### 2.1 Database design
 ![](images/task_management_db.png)
 
 Tables and meaning:
@@ -138,7 +138,7 @@ some incidents happen or nonworking days, the task is changed to "Pending" but o
 Employer has this permission, so I put a field called __approver__ in __Transition__ table to handle 
 this situation.
 
-###2.2 Functions and API design in the system
+### 2.2 Functions and API design in the system
 #### 2.2.1 Add user
 ```JSON
 POST http://127.0.0.1:5000/v1/user
