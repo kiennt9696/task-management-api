@@ -366,7 +366,7 @@ With JWT access token, it's stateless and in use until expired. Hence, in my des
 but access token's is short, i.e 5 - 10 minutes. Along with that Client should remove or update user access token when 
 there are users' role changes. Our system should be event-driven with Kafka queue.
 
-#### 3.4 System performance with big data overtime
+#### 3.4 System performance with big data over time
 When data grows up, especially with SQL database, Postgres as I use in this, system performance may go down significantly.
 The solutions I suggest includes:
 - Shard data into multiple nodes (this may introduce some overheads on application layer)
