@@ -10,7 +10,7 @@ __Task API Management__: https://github.com/kiennt9696/task.git
 
 
 
-##1. Authentication & Authorization with Role-Based Access Control (RBAC)
+## 1. Authentication & Authorization with Role-Based Access Control (RBAC)
 ### 1.1 Authentication & Authorization Flow
 In this assignment, I use a basic authentication with username and password 
 for ease of demonstration. Later we can any OIDC provider to integrate with
