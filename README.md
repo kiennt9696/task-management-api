@@ -8,7 +8,7 @@ __Safekeeper__: https://github.com/kiennt9696/safekeeper.git
 
 __Task API Management__: https://github.com/kiennt9696/task.git
 
-
+Common package is used for 3 projects: https://github.com/kiennt9696/common-utils.git
 
 ## 1. Authentication & Authorization with Role-Based Access Control (RBAC)
 ### 1.1 Authentication & Authorization Flow
