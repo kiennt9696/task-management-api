@@ -92,10 +92,26 @@ A role now may have multiple permissions
 | Employer  |    x   |     | x     |        |
 | Employee    | x    | x    | x     |     x |
 
+Users then are assigned to roles
+
+| User | Employee     |  Employer    |
+|------------|------------|------------|
+| Alice  |       |  x   | 
+| Bob    |  x  |     |
+
 Let's fulfill these tables for other business requirements. When the system grows up, features become complex
 we can extend multiple scopes for one action.
 
-The service __Saftekeeper__ follows these rules to determine where it will grant access token to client when they request it or not.
+Let's see how data is stored in database
+
+![img_4.png](img_4.png)
+![img_5.png](img_5.png)
+![img_6.png](img_6.png)
+![img_7.png](img_7.png)
+![img_8.png](img_8.png)
+![img_9.png](img_9.png)
+
+Service __Saftekeeper__ follows these rules to determine where it will grant access token to client when they request it or not.
 The authorization combining __oauth2__ and __RBAC__ now is as follows.
 ![](images/oauth2_with_rbac.png)
 
@@ -125,9 +141,9 @@ Tables and meaning:
   
 Relationship among them:
 - each __Task__ has a specific task type, task severity, task status at a time. 
-- each task type is corresponding to a workflow. For example, regular tasks follows flow (todo -> in progress -> completed) 
-but a task of "bug" uses another different flow such as (to do -> open - close -> reopen). This means workflow is changed when task type is changed.
-- a workflow contains multiple transitions: A-> B, B-> C, C -> A.
+- each task type is corresponding to a workflow. For example, regular tasks follows flow (todo → in progress → completed) 
+but a task of "bug" uses another different flow such as (to do → open → close → reopen). This means workflow is changed when task type is changed.
+- a workflow contains multiple transitions: A → B, B → C, C → A.
 - __TaskStatus__ is changed following its workflow.
 
 The workflow I built for this system:
@@ -144,6 +160,7 @@ In case, some incidents happen or nonworking days, the task is changed to "Pendi
 Employer has this permission, so I put a field called __approver__ in __Transition__ table to handle 
 this situation.
 
+![img_3.png](img_3.png)
 ### 2.2 Functions and API design in the system
 #### 2.2.1 Add user
 ```JSON
