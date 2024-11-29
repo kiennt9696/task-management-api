@@ -85,7 +85,14 @@ The problem now is as modeled as follows. There are basic permissions on resourc
 | update status of assigned tasks only    | task    | update    |edit:task     |
 | assign tasks for others    | task    | su_update    |su_edit:task     |
 
-Let's fulfill this table for other business requirements. When the system grows and, features become complex
+A role now may have multiple permissions
+
+| Role | view task basic     |  view task advanced    |  update status of assigned tasks only     | assign tasks for others|
+|------------|------------|------------|------------|-----------|
+| Employer  |    x   |     | x     |        |
+| Employee    | x    | x    | x     |     x |
+
+Let's fulfill these tables for other business requirements. When the system grows up, features become complex
 we can extend multiple scopes for one action.
 
 The service __Saftekeeper__ follows these rules to determine where it will grant access token to client when they request it or not.
