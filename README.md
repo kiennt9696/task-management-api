@@ -371,10 +371,10 @@ CREATE INDEX idx_user_role ON User(role); # This table is different from table U
 CREATE INDEX idx_task_compound ON Task(assignee, status_id);
 ```
 
-In my design Database for Authentication, Authorization and Task API are dependent for ease of scaling when system grows up.
+In my design, databases for Authentication, Authorization and Task API are dependent for ease of scaling when system grows up.
 Therefore, table User and table Task lies on different databases, some validation can be done in application layer.
 I do not directly join Task with User and other RBAC tables to filter if they are Employee or not. Instead, 
-I use a brief precomputing table User in Task Service's Database with enough info (username, role) to join then compute
+I use a brief precomputing table User in Task Service's database with enough info (username, role) to join then compute
 summary report efficiently. I use CDC mechanism to reflect changes from real User database to User in Task Service.
 However, when data grows up by time this query increases load and decrease system performance even with indexing.
 I suggest the following approaches when facing that:
