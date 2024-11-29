@@ -49,6 +49,7 @@ Tables and their meaning:
 - __Scope__: represent a specific operation on resources 
 
 - __AuditTable__: an abstract table, not a real table in database, is used to track audit info on data created/updated time and who did it and so on. 
+
 Relationship among them:
 
 - a __User__ may be assigned to many __Role__
