@@ -34,19 +34,19 @@ which is the goal of this assignment.
 ![](images/authentication_authorization_flow.png)
 Tables and their meanings:
 
-- __User__: store user info
+- __User__: stores user info
 
-- __Client__: store clients registered to our system, this is used for verification in oauth2 flow
+- __Client__: stores clients registered to our system, this is used for verification in oauth2 flow
 
-- __Role__: manage roles in our system
+- __Role__: manages roles in our system
 
-- __Permission__: define permissions that __Role__ may have
+- __Permission__: defines permissions that __Role__ may have
 
-- __PermissionObject__: define kind of resources that users want to access, i.e Task in this assignment
+- __PermissionObject__: defines kind of resources that users want to access, i.e Task in this assignment
 
-- __PermissionAction__: manage actions that can be operated on resources (__PermissionObject__), i.e read, edit, delete, create, etc.
+- __PermissionAction__: manages actions that can be operated on resources (__PermissionObject__), i.e read, edit, delete, create, etc.
 
-- __Scope__: represent a specific operation on resources 
+- __Scope__: represents a specific operation on resources 
 
 - __AuditTable__: an abstract table, not a real table in database, is used to track audit info on data created/updated time and who did it and so on. 
 
@@ -67,7 +67,7 @@ for action (sell) on resource (book) it has 2 scopes: sell:book, lend:book. With
 performed. This architecture is extendable and may be applied to complicated systems.
 
 ### 1.3 How this design work with Task Management System
-We have 2 roles:
+There are 2 roles:
 - Employee: 
   - view assigned tasks (basic_view → task)
   - update assigned task status (basic_update → task) 
@@ -128,13 +128,12 @@ The workflow I built for this system:
 ![](images/workflow.png)
 
 
-There are 4 statuses: To Do, In Progress, Pending, Completed.
+There are 4 statuses: __To Do__, __In Progress__, __Pending__, __Completed__.
 The common workflow is: 
 
 To Do → In Progress → Completed. 
 
-In some case,
-some incidents happen or nonworking days, the task is changed to "Pending" but only
+In case, some incidents happen or nonworking days, the task is changed to "Pending" but only
 Employer has this permission, so I put a field called __approver__ in __Transition__ table to handle 
 this situation.
 
