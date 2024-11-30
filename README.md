@@ -2,11 +2,11 @@
 
 Three services in this system:
 
-__Authenticator__: https://github.com/kiennt9696/authenticator.git
+__Task API Management__: https://github.com/kiennt9696/task.git
 
 __Safekeeper__: https://github.com/kiennt9696/safekeeper.git
 
-__Task API Management__: https://github.com/kiennt9696/task.git
+__Authenticator__: https://github.com/kiennt9696/authenticator.git
 
 Common package is used for 3 projects: https://github.com/kiennt9696/common-utils.git
 
@@ -571,7 +571,64 @@ Coverage XML written to file test_coverage/coverage.xml
 =========================================================================== 28 passed, 10 warnings in 1.46s ===========================================================================
 
 ```
+#### Dockerization and deployment
+Dockerfile
+```dockerfile
+FROM python:3.8.0b1-slim-stretch
 
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
+
+COPY requirements.txt /usr/src/app/
+
+RUN pip3 install --no-cache-dir -r requirements.txt --upgrade
+
+COPY . /usr/src/app
+ENV prometheus_multiproc_dir="/tmp"
+RUN chmod +x run.sh
+
+CMD ["./run.sh"]
+```
+In production environment, lets's deploy app with __Gunicorn__ and __WSGI__.
+```shell
+#!/bin/bash
+
+worker=${WORKER:-1}
+port=${PORT:-8082}
+timeout=${TIMEOUT:-60}
+
+gunicorn -c prometheus_config.py --bind 0.0.0.0:${port} -k gevent -w $worker --timeout $timeout wsgi
+
+```
+Build image (set PROXY if needed or just remove it):
+```shell
+docker image build --network=host --build-arg http_proxy=$(PROXY) --build-arg https_proxy=$(PROXY) --build-arg NO_PROXY=127.0.0.1 -t task-management-api:1.0.0 .
+```
+Docker-compose setup
+```shell
+version: '2'
+
+services:
+    ticket_api:
+      container_name: task-api
+      image: task-management-api:1.0.0
+      volumes:
+        - ./config.yaml:/usr/src/app/config.yaml
+        - ./logger.conf:/usr/src/app/logger.conf
+        - ./logs:/usr/src/app/logs
+      environment:
+        PORT: 8080
+        WORKER: 1
+        METRICS_PORT: 18080
+        prometheus_multiproc_dir: /tmp
+
+      ports:
+        - 8086:8080
+```
+Deploy using docker-compose
+```shell
+docker-compose up -d
+```
 #### 4.5 Others
 - __Pagination__ is applied to every API.
 - I always implement a __healthz api__ for a service to monitor service's health.
