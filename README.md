@@ -609,7 +609,7 @@ Docker-compose setup
 version: '2'
 
 services:
-    ticket_api:
+    task_api:
       container_name: task-api
       image: task-management-api:1.0.0
       volumes:
