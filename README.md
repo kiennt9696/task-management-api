@@ -438,7 +438,7 @@ The solutions I suggest includes:
 - Sharding data into multiple nodes (this may introduce some overheads on application layer)
 - Adding replica for read sharing load
 - Caching
-- Archival Service: for this system we prioritize tasks with task not completed. For completed ones, 
+- __Archival Service__: for this system we prioritize tasks with task not completed. For completed ones, 
   they are rarely modified and eventual consistency is acceptable so let's move them to
 another database such as __Cassandra__. This makes Postgres performance improved and stable. 
   
