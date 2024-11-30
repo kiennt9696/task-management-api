@@ -39,7 +39,11 @@ Common package is used for 3 projects: https://github.com/kiennt9696/common-util
   * [4.4 Unittest and coverage](#44-unittest-and-coverage)
   * [4.5 Dockerization and deployment](#45-dockerization-and-deployment)
   * [4.6 Others](#46-others)
-    
+  
+
+## Overall System Architecture
+
+![](images/block_architecture.png)
 
 ## 1. Authentication & Authorization with Role-Based Access Control (RBAC)
 ### 1.1 Authentication & Authorization Flow
@@ -436,7 +440,7 @@ The solutions I suggest includes:
 - Caching
 - Archival Service: for this system we prioritize tasks with task not completed. For completed ones, 
   they are rarely modified and eventual consistency is acceptable so let's move them to
-another database such as Cassandra. This makes Postgres performance improved and stable. 
+another database such as __Cassandra__. This makes Postgres performance improved and stable. 
   
 ## 4. Technologies and Patterns
 ### 4.1 Language and frameworks
