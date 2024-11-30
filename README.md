@@ -10,6 +10,37 @@ __Authenticator__: https://github.com/kiennt9696/authenticator.git
 
 Common package is used for 3 projects: https://github.com/kiennt9696/common-utils.git
 
+# Table of Contents
+- [1. Authentication & Authorization with Role-Based Access Control (RBAC)](#1-authentication---authorization-with-role-based-access-control--rbac-)
+  * [1.1 Authentication & Authorization Flow](#11-authentication---authorization-flow)
+  * [1.2 Database design for RBAC](#12-database-design-for-rbac)
+  * [1.3 How this design work with Task Management System](#13-how-this-design-work-with-task-management-system)
+- [2. Task Management Flow](#2-task-management-flow)
+  * [2.1 Database design](#21-database-design)
+  * [2.2 Functions and API design in the system](#22-functions-and-api-design-in-the-system)
+    + [2.2.1 Add user](#221-add-user)
+    + [2.2.2 Login](#222-login)
+    + [2.2.3 Get access token for scopes](#223-get-access-token-for-scopes)
+  * [2.2.4 Get assigned task only (Employee)](#224-get-assigned-task-only--employee-)
+    + [2.2.5 Get all tasks (Employer)](#225-get-all-tasks--employer-)
+    + [2.2.6 Update status of assigned tasks only (Employee)](#226-update-status-of-assigned-tasks-only--employee-)
+    + [2.2.7 Assign tasks for others (Employer)](#227-assign-tasks-for-others--employer-)
+    + [2.2.8 Create tasks (Employer)](#228-create-tasks--employer-)
+    + [2.2.9 View employee task summary report (Employer)](#229-view-employee-task-summary-report--employer-)
+- [3. Core processing and solved technical problems](#3-core-processing-and-solved-technical-problems)
+  * [3.1 Check user has some permissions via scopes (RBAC logic core)](#31-check-user-has-some-permissions-via-scopes--rbac-logic-core-)
+  * [3.2 Query tasks and Task report summary](#32-query-tasks-and-task-report-summary)
+  * [3.3 Why using scope based RBAC, not querying RBAC Database for every request? How to deal with staling permission with my approach?](#33-why-using-scope-based-rbac--not-querying-rbac-database-for-every-request--how-to-deal-with-staling-permission-with-my-approach-)
+  * [3.4 System performance with big data over time](#34-system-performance-with-big-data-over-time)
+- [4. Technologies and Patterns](#4-technologies-and-patterns)
+  * [4.1 Language and frameworks](#41-language-and-frameworks)
+  * [4.2 Database](#42-database)
+  * [4.3 Project structures and layers](#43-project-structures-and-layers)
+  * [4.4 Unittest and coverage](#44-unittest-and-coverage)
+  * [4.5 Dockerization and deployment](#45-dockerization-and-deployment)
+  * [4.6 Others](#46-others)
+    
+
 ## 1. Authentication & Authorization with Role-Based Access Control (RBAC)
 ### 1.1 Authentication & Authorization Flow
 In this assignment, I use a basic authentication with username and password 
@@ -326,9 +357,9 @@ response {
 }
 ```
 
-###3. Core processing solved technical problems
+## 3. Core processing and solved technical problems
 
-#### 3.1 Check user has some permissions via scopes (RBAC logic core)
+### 3.1 Check user has some permissions via scopes (RBAC logic core)
 Query to verify when Client ask for an access token for some scopes
 ```sql
 SELECT COUNT(DISTINCT scope.id)
@@ -347,7 +378,7 @@ CREATE INDEX idx_role_permission_role_id ON role_permission(role_id);
 CREATE INDEX idx_permission_scope_permission_id ON permission_scope(permission_id);
 CREATE INDEX idx_scope_name ON scope(name);
 ```
-#### 3.2 Query tasks and Task report summary
+### 3.2 Query tasks and Task report summary
 ```sql
 SELECT 
     user.username, 
@@ -386,7 +417,7 @@ I suggest the following approaches when facing that:
 
 Depending on problems let's combine these to solve it.
 
-#### 3.3 Why using scope based RBAC, not querying RBAC Database for every request? How to deal with staling permission with my approach?
+### 3.3 Why using scope based RBAC, not querying RBAC Database for every request? How to deal with staling permission with my approach?
 Why using scope based RBAC, not querying RBAC Database for every request?
 
 The answer is querying RBAC DB for every single request is expensive. I suggest re-verifing it only with critical functions.
@@ -397,7 +428,7 @@ With JWT access token, it's stateless and in use until expired. Hence, in my des
 but access token's is short, i.e 5 - 10 minutes. Along with that Client should remove or update user access token when 
 there are users' role changes. Our system should be event-driven with Kafka queue.
 
-#### 3.4 System performance with big data over time
+### 3.4 System performance with big data over time
 When data grows up, especially with SQL database, Postgres as I use in this, system performance may go down significantly.
 The solutions I suggest includes:
 - Sharding data into multiple nodes (this may introduce some overheads on application layer)
@@ -407,12 +438,12 @@ The solutions I suggest includes:
   they are rarely modified and eventual consistency is acceptable so let's move them to
 another database such as Cassandra. This makes Postgres performance improved and stable. 
   
-### 4. Technologies and Patterns
-#### 4.1 Language and frameworks
+## 4. Technologies and Patterns
+### 4.1 Language and frameworks
 I use Python Flask with Connexion to leverage defining API endpoints, input validation, and documentation in a OpenAPI specification file.
-#### 4.2 Database
+### 4.2 Database
 I use Postgres for storage, combining with SQLAchemy ORM.
-#### 4.3 Project structures and layers
+### 4.3 Project structures and layers
 ```html
 │   app.py
 │   extension.py
@@ -523,7 +554,7 @@ then, it is plugged in any Flask project to use:
 
 This way I can organize my code efficiently.
 
-#### 4.4 Unittest and coverage
+### 4.4 Unittest and coverage
 Run unittest command:
 ```html
 python -m pytest -sv --cov-report xml:test_coverage/coverage.xml  --cov-report term-missing --cov=task task/tests
@@ -571,7 +602,7 @@ Coverage XML written to file test_coverage/coverage.xml
 =========================================================================== 28 passed, 10 warnings in 1.46s ===========================================================================
 
 ```
-#### Dockerization and deployment
+### 4.5 Dockerization and deployment
 Dockerfile
 ```dockerfile
 FROM python:3.8.0b1-slim-stretch
@@ -629,7 +660,7 @@ Deploy using docker-compose
 ```shell
 docker-compose up -d
 ```
-#### 4.5 Others
+### 4.6 Others
 - __Pagination__ is applied to every API.
 - I always implement a __healthz api__ for a service to monitor service's health.
 - __Prometheus__ is used to collect metrics on service performance. 
