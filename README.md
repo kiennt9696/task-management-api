@@ -153,9 +153,9 @@ So far, the process I have mentioned is just a half of the final solution for th
 The next part is how Task API service interacts with __scopes__ to accommodate the problem requirements.
 
 In __Task API service__, now, it defines APIs that perform the business logic functions, such as view assigned tasks only, view all tasks, etc.
-However, for each endpoint of these APIs, it is assigned with a specific scope for each function as I mentioned in the above permission table.
-The Task API service then needs to validate the access token first to check whether it is a valid token then includes the right scope for the endpoint
-before allowing function execution.
+However, __for each endpoint of these APIs, it is assigned with a specific scope for each function__ as I mentioned in the above permission table.
+__The Task API service then needs to validate the access token first to check whether it is a valid token then includes the right scope for the endpoint
+before allowing function execution.__
 
 ![](images/scope_validation.png)
 
@@ -418,15 +418,15 @@ I suggest the following approaches when facing that:
 Depending on problems let's combine these to solve it.
 
 ### 3.3 Why using scope based RBAC, not querying RBAC Database for every request? How to deal with staling permission with my approach?
-Why using scope based RBAC, not querying RBAC Database for every request?
+_Why using scope based RBAC, not querying RBAC Database for every request?_
 
 The answer is querying RBAC DB for every single request is expensive. I suggest re-verifing it only with critical functions.
 
-How to deal with staling permission with my approach?
+_How to deal with staling permission with my approach?_
 
 With JWT access token, it's stateless and in use until expired. Hence, in my design login session token (login token) has long expiration time,
 but access token's is short, i.e 5 - 10 minutes. Along with that Client should remove or update user access token when 
-there are users' role changes. Our system should be event-driven with Kafka queue.
+there are users' role changes. Our system should be event-driven with Kafka queue so that it can notify others on data changes. Along with that with Oauth2 flow, Client must be verified is a security plus.   
 
 ### 3.4 System performance with big data over time
 When data grows up, especially with SQL database, Postgres as I use in this, system performance may go down significantly.
