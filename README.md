@@ -622,6 +622,7 @@ CMD ["./run.sh"]
 ```
 In production environment, lets's deploy app with __Gunicorn__ and __WSGI__.
 ```shell
+run.sh
 #!/bin/bash
 
 worker=${WORKER:-1}
