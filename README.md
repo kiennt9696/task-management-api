@@ -59,10 +59,10 @@ then return a session token that represents a user login session.
 __Safekeeper__: is the authorization server, receives a session token from __Client__,
 verifies then grants _access token_ if RBAC is satisfied.
 
-I use Oauth2 with Authorization Code grant. It helps to manage clients 
+I use __Oauth2__ with __Authorization Code__ grant. It helps to manage clients 
 that want to be authorized via our service and make this flow more secured.
 In my implementation, I prefer this flow but simplify it to focus more on RBAC,
-which is the goal of this assignment.
+which is the primary goal of this assignment.
 
 ### 1.2 Database design for RBAC
 
