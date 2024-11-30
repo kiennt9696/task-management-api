@@ -48,7 +48,7 @@ Common package is used for 3 projects: https://github.com/kiennt9696/common-util
 ## 1. Authentication & Authorization with Role-Based Access Control (RBAC)
 ### 1.1 Authentication & Authorization Flow
 In this assignment, I use a basic authentication with username and password 
-for ease of demonstration. Later we can integrate any OIDC provider with
+for ease of demonstration. Later on, we can integrate any OIDC provider with
 this system for authorization with RBAC. The flow is as follows:
 
 ![](images/oauth2_flow.png)
