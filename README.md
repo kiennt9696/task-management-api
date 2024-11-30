@@ -573,6 +573,6 @@ Coverage XML written to file test_coverage/coverage.xml
 ```
 
 #### 4.5 Others
-- Pagination is applied to every API.
-- I always implement a healthz api for a service to monitor service's health.
-- Prometheus is used to collect metrics on service performance. 
+- __Pagination__ is applied to every API.
+- I always implement a __healthz api__ for a service to monitor service's health.
+- __Prometheus__ is used to collect metrics on service performance. 
