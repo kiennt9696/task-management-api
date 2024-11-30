@@ -472,11 +472,22 @@ I use Postgres for storage, combining with SQLAchemy ORM.
 │       __init__.py
 │
 └───tests
-    │   test_alive_controller.py
     │   __init__.py
     │
-    └───helpers
-            test_helper.py
+    ├───controllers
+    │       test_task_controller.py
+    │
+    ├───helpers
+    │       test_util.py
+    │
+    ├───repositories
+    │       test_task_repository.py
+    │       test_workflow_repository.py
+    │
+    └───services
+            test_task_service.py
+            test_workflow_service.py
+
 ```
 I split my project into 5 main layers:
 1. __Routing and validation__ request params are handled by Connexion with OpenAPI. 
@@ -511,3 +522,57 @@ then, it is plugged in any Flask project to use:
 ![img_2.png](img_2.png)
 
 This way I can organize my code efficiently.
+
+#### 4.4 Unittest and coverage
+Run unittest command:
+```html
+python -m pytest -sv --cov-report xml:test_coverage/coverage.xml  --cov-report term-missing --cov=task task/tests
+```
+My code coverage:
+```html
+Name                                                  Stmts   Miss  Cover   Missing
+-----------------------------------------------------------------------------------
+task\__init__.py                                         50     28    44%   25, 35-50, 60-62, 71-84, 92-94, 98-100
+task\__main__.py                                          7      7     0%   1-13
+task\app.py                                               3      3     0%   1-5
+task\controllers\__init__.py                              0      0   100%
+task\controllers\healthz.py                               4      4     0%   1-6
+task\controllers\task.py                                 38      0   100%
+task\extension.py                                         7      0   100%
+task\infras\__init__.py                                   0      0   100%
+task\infras\db\__init__.py                                0      0   100%
+task\infras\db\connection.py                             21      9    57%   13-14, 17-18, 21, 24-26, 29
+task\interfaces\__init__.py                               0      0   100%
+task\interfaces\repositories\__init__.py                  0      0   100%
+task\interfaces\repositories\task.py                     16      4    75%   13, 17, 21, 27
+task\interfaces\repositories\workflow.py                  6      1    83%   12
+task\middlewares\__init__.py                              0      0   100%
+task\middlewares\token_validator.py                      11     11     0%   1-14
+task\models\__init__.py                                  70      3    96%   108-110
+task\repositories\__init__.py                             5      0   100%
+task\repositories\task.py                                35      2    94%   27, 36
+task\repositories\workflow.py                            12      0   100%
+task\schemas\__init__.py                                  0      0   100%
+task\schemas\schema.py                                    6      0   100%
+task\services\__init__.py                                 5      0   100%
+task\services\task.py                                    56      1    98%   98
+task\services\workflow.py                                13      0   100%
+task\tests\__init__.py                                   26      0   100%
+task\tests\controllers\test_task_controller.py           44      0   100%
+task\tests\helpers\test_util.py                          37      0   100%
+task\tests\repositories\test_task_repository.py          49      0   100%
+task\tests\repositories\test_workflow_repository.py      24      0   100%
+task\tests\services\test_task_service.py                 73      0   100%
+task\tests\services\test_workflow_service.py             29      0   100%
+-----------------------------------------------------------------------------------
+TOTAL                                                   647     73    89%
+Coverage XML written to file test_coverage/coverage.xml
+
+=========================================================================== 28 passed, 10 warnings in 1.46s ===========================================================================
+
+```
+
+#### 4.5 Others
+- Pagination is applied to every API.
+- I always implement a healthz api for a service to monitor service's health.
+- Prometheus is used to collect metrics on service performance. 
