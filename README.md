@@ -444,9 +444,9 @@ another database such as __Cassandra__. This makes Postgres performance improved
   
 ## 4. Technologies and Patterns
 ### 4.1 Language and frameworks
-I use Python Flask with Connexion to leverage defining API endpoints, input validation, and documentation in a OpenAPI specification file.
+I use __Python Flask__ with __Connexion__ to leverage defining API endpoints, input validation, and documentation in a __OpenAPI__ specification file.
 ### 4.2 Database
-I use Postgres for storage, combining with SQLAchemy ORM.
+I use __Postgres__ for storage, combining with __SQLAchemy ORM__.
 ### 4.3 Project structures and layers
 ```html
 │   app.py
@@ -530,7 +530,7 @@ I split my project into 5 main layers:
    
 2. __Controller Layer__: This layer receives requests, extracts params and calls __Service Layer__ to perform the right business functions.
 3. __Service Layer (Use case)__: This layer handles all business logic functions such as verifying workflow, changing task statuses via interacting with __Repository__ to perform read/write to databases or external systems.
-   In this layer, I use __marshmallow__ to dump data to json before returning data to clients
+   In this layer, I use __Marshmallow__ to dump data to json before returning data to clients
 4. __Repository Layer__: This layer only execute naive CRUD operations to database without any complicated logic.
 5. __Infras__: Handle connections to a specific kind of database, i.e Postgres in my case.
 
