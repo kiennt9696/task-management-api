@@ -400,7 +400,7 @@ there are users' role changes. Our system should be event-driven with Kafka queu
 #### 3.4 System performance with big data over time
 When data grows up, especially with SQL database, Postgres as I use in this, system performance may go down significantly.
 The solutions I suggest includes:
-- Shard data into multiple nodes (this may introduce some overheads on application layer)
+- Sharding data into multiple nodes (this may introduce some overheads on application layer)
 - Adding replica for read sharing load
 - Caching
 - Archival Service: for this system we prioritize tasks with task not completed. For completed ones, 
@@ -490,7 +490,7 @@ I use Postgres for storage, combining with SQLAchemy ORM.
 
 ```
 I split my project into 5 main layers:
-1. __Routing and validation__ request params are handled by Connexion with OpenAPI. 
+1. __Routing and validation__ request params are handled by __Connexion__ with __OpenAPI__. 
    The security checking for matching scope is also handled here where I injected a token validator handler in __middlewares__.
    
 2. __Controller Layer__: This layer receives requests, extracts params and calls __Service Layer__ to perform the right business functions.
