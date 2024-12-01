@@ -648,13 +648,13 @@ Project structure:
 Frankly speaking, due to time limitation I have not integrated all the APIs to Portal but fundamental flows are ready. The UI is currently not fancy,
 just a basic one for flow illustration.
 
-Let's look at Employer flow. Let's say _kiennt96_ has role Employer, so he can view all the tasks (click below to see a demo):
+Let's look at Employer flow. Let's say _kiennt96_ is an Employer, so he can view all the tasks (click below to see a demo):
 
 ![](images/employer_1.gif)
 ![](images/employer_2.gif)
 [Full Employer Flow](https://youtu.be/fAuATdrq2vk)
 
-Another is Employee flow. Let's say __kiennt97_ has role Employee, so he can only see tasks assigned to him (click below to see a demo):
+Another is Employee flow. Let's say _kiennt97_ is an Employee, so he can only see tasks assigned to him (click below to see a demo):
 
 ![](images/employee_1.gif)
 ![](images/employee_2.gif)
