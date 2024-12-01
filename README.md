@@ -16,7 +16,7 @@ Common package is used for 3 projects (TaskAPI, Authenticator, Safekeeper): http
 - [1. Authentication & Authorization with Role-Based Access Control (RBAC)](#1-authentication---authorization-with-role-based-access-control--rbac-)
   * [1.1 Authentication & Authorization Flow](#11-authentication---authorization-flow)
   * [1.2 Database design for RBAC](#12-database-design-for-rbac)
-  * [1.3 How this design work with Task Management System](#13-how-this-design-work-with-task-management-system)
+  * [1.3 How this design works with Task Management System](#13-how-this-design-works-with-task-management-system)
 - [2. Task Management Flow](#2-task-management-flow)
   * [2.1 Database design](#21-database-design)
   * [2.2 Functions and API design in the system](#22-functions-and-api-design-in-the-system)
@@ -104,7 +104,7 @@ may imply some other operations. That's why I introduce a fine-grained level of 
 for action (sell) on resource (book) it has 2 scopes: sell:book, lend:book. With each scope, a separate logic business is
 performed. This architecture is extendable and may be applied to complicated systems.
 
-### 1.3 How this design work with Task Management System
+### 1.3 How this design works with Task Management System
 There are 2 roles:
 - Employee: 
   - view assigned tasks (basic_view → task)
@@ -114,7 +114,7 @@ There are 2 roles:
   - create tasks (super_create → task)
   - assign tasks (super_update → task)
     
-The problem now is as modeled as follows. There are basic permissions on resource Task:
+The problem now is modeled as follows. There are basic and advanced permissions on resource Task:
 
 | Permission | object     | action     | scope      |
 |------------|------------|------------|------------|
