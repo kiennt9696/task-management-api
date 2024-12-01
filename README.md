@@ -32,7 +32,7 @@ Common package is used for 3 projects (TaskAPI, Authenticator, Safekeeper): http
 - [3. Core processing and solved technical problems](#3-core-processing-and-solved-technical-problems)
   * [3.1 Check user has some permissions via scopes (RBAC logic core)](#31-check-user-has-some-permissions-via-scopes--rbac-logic-core-)
   * [3.2 Query tasks and Task report summary](#32-query-tasks-and-task-report-summary)
-  * [3.3 Why using scope based RBAC, not querying RBAC Database for every request? How to deal with staling permission with my approach?](#33-why-using-scope-based-rbac--not-querying-rbac-database-for-every-request--how-to-deal-with-staling-permission-with-my-approach-)
+  * [3.3 Why using scope based RBAC, not querying RBAC Database for every request? How to deal with stale permission with my approach?](#33-why-using-scope-based-rbac--not-querying-rbac-database-for-every-request--how-to-deal-with-stale-permission-with-my-approach-)
   * [3.4 System performance with big data over time](#34-system-performance-with-big-data-over-time)
 - [4. Technologies and Patterns](#4-technologies-and-patterns)
   * [4.1 Language and frameworks](#41-language-and-frameworks)
@@ -424,12 +424,12 @@ I suggest the following approaches when facing that:
 
 Depending on problems let's combine these to solve it.
 
-### 3.3 Why using scope based RBAC, not querying RBAC Database for every request? How to deal with staling permission with my approach?
+### 3.3 Why using scope based RBAC, not querying RBAC Database for every request? How to deal with stale permission with my approach?
 _Why using scope based RBAC, not querying RBAC Database for every request?_
 
 The answer is querying RBAC DB for every single request is expensive. I suggest re-verifing it only with critical functions.
 
-_How to deal with staling permission with my approach?_
+_How to deal with stale permission with my approach?_
 
 With JWT access token, it's stateless and in use until expired. Hence, in my design login session token (login token) has long expiration time,
 but access token's is short, i.e 5 - 10 minutes. Along with that Client should remove or update user access token when 
