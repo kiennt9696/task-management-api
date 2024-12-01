@@ -51,7 +51,7 @@ Common package is used for 3 projects (TaskAPI, Authenticator, Safekeeper): http
 ## 1. Authentication & Authorization with Role-Based Access Control (RBAC)
 ### 1.1 Authentication & Authorization Flow
 In this assignment, I use a basic authentication with username and password 
-for ease of demonstration. Later we can integrate any OIDC provider with
+for ease of demonstration. Later on, we can integrate any OIDC provider with
 this system for authorization with RBAC. The flow is as follows:
 
 ![](images/oauth2_flow.png)
@@ -62,10 +62,10 @@ then return a session token that represents a user login session.
 __Safekeeper__: is the authorization server, receives a session token from __Client__,
 verifies then grants _access token_ if RBAC is satisfied.
 
-I use Oauth2 with Authorization Code grant. It helps to manage clients 
+I use __Oauth2__ with __Authorization Code__ grant. It helps to manage clients 
 that want to be authorized via our service and make this flow more secured.
 In my implementation, I prefer this flow but simplify it to focus more on RBAC,
-which is the goal of this assignment.
+which is the primary goal of this assignment.
 
 ### 1.2 Database design for RBAC
 
@@ -443,15 +443,15 @@ The solutions I suggest includes:
 - Sharding data into multiple nodes (this may introduce some overheads on application layer)
 - Adding replica for read sharing load
 - Caching
-- Archival Service: for this system we prioritize tasks with task not completed. For completed ones, 
+- __Archival Service__: for this system we prioritize tasks with task not completed. For completed ones, 
   they are rarely modified and eventual consistency is acceptable so let's move them to
 another database such as __Cassandra__. This makes Postgres performance improved and stable. 
   
 ## 4. Technologies and Patterns
 ### 4.1 Language and frameworks
-I use Python Flask with Connexion to leverage defining API endpoints, input validation, and documentation in a OpenAPI specification file.
+I use __Python Flask__ with __Connexion__ to leverage defining API endpoints, input validation, and documentation in a __OpenAPI__ specification file.
 ### 4.2 Database
-I use Postgres for storage, combining with SQLAchemy ORM.
+I use __Postgres__ for storage, combining with __SQLAchemy ORM__.
 ### 4.3 Project structures and layers
 ```html
 │   app.py
@@ -535,7 +535,7 @@ I split my project into 5 main layers:
    
 2. __Controller Layer__: This layer receives requests, extracts params and calls __Service Layer__ to perform the right business functions.
 3. __Service Layer (Use case)__: This layer handles all business logic functions such as verifying workflow, changing task statuses via interacting with __Repository__ to perform read/write to databases or external systems.
-   In this layer, I use __marshmallow__ to dump data to json before returning data to clients
+   In this layer, I use __Marshmallow__ to dump data to json before returning data to clients
 4. __Repository Layer__: This layer only execute naive CRUD operations to database without any complicated logic.
 5. __Infras__: Handle connections to a specific kind of database, i.e Postgres in my case.
 
