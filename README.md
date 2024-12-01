@@ -1,6 +1,6 @@
 # Task Management API Challenge
 
-Three services in this system:
+Four services in this system:
 
 __Task API Management__: https://github.com/kiennt9696/task.git
 
@@ -8,7 +8,9 @@ __Safekeeper__: https://github.com/kiennt9696/safekeeper.git
 
 __Authenticator__: https://github.com/kiennt9696/authenticator.git
 
-Common package is used for 3 projects: https://github.com/kiennt9696/common-utils.git
+__Portal__: https://github.com/kiennt9696/task-management-portal.git
+
+Common package is used for 3 projects (TaskAPI, Authenticator, Safekeeper): https://github.com/kiennt9696/common-utils.git
 
 # Table of Contents
 - [1. Authentication & Authorization with Role-Based Access Control (RBAC)](#1-authentication---authorization-with-role-based-access-control--rbac-)
@@ -37,8 +39,9 @@ Common package is used for 3 projects: https://github.com/kiennt9696/common-util
   * [4.2 Database](#42-database)
   * [4.3 Project structures and layers](#43-project-structures-and-layers)
   * [4.4 Unittest and coverage](#44-unittest-and-coverage)
-  * [4.5 Dockerization and deployment](#45-dockerization-and-deployment)
-  * [4.6 Others](#46-others)
+  * [4.5 Portal](#45-portal)
+  * [4.6 Dockerization and deployment](#46-dockerization-and-deployment)
+  * [4.7 Others](#47-others)
   
 
 ## Overall System Architecture
@@ -430,7 +433,9 @@ _How to deal with staling permission with my approach?_
 
 With JWT access token, it's stateless and in use until expired. Hence, in my design login session token (login token) has long expiration time,
 but access token's is short, i.e 5 - 10 minutes. Along with that Client should remove or update user access token when 
-there are users' role changes. Our system should be event-driven with Kafka queue so that it can notify others on data changes. Along with that with Oauth2 flow, Client must be verified is a security plus.   
+there are users' role changes. Our system should be event-driven with Kafka queue so that it can notify others on data changes. 
+Client (Portal) also should use SessionStorage to save tokens instead of LocalStorage. 
+Along with that, within Oauth2 flow, Client must be verified is a security plus.   
 
 ### 3.4 System performance with big data over time
 When data grows up, especially with SQL database, Postgres as I use in this, system performance may go down significantly.
@@ -606,7 +611,54 @@ Coverage XML written to file test_coverage/coverage.xml
 =========================================================================== 28 passed, 10 warnings in 1.46s ===========================================================================
 
 ```
-### 4.5 Dockerization and deployment
+### 4.5 Portal
+I use __React__.
+
+Project structure:
+```html
+│   App.css
+│   App.js
+│   App.test.js
+│   index.css
+│   index.js
+│   logo.svg
+│   reportWebVitals.js
+│   setupTests.js
+│
+├───components
+│       Dashboard.jsx
+│       Dashboard.test.js
+│       Login.jsx
+│       Login.test.js
+│       Summary.jsx
+│       Summary.test.js
+│       TaskForm.jsx
+│       TaskForm.test.js
+│       TaskList.jsx
+│       TaskList.test.js
+│
+├───services
+│       api.js
+│       api.test.js
+│
+└───__mocks__
+        axios.js
+
+```
+Frankly speaking, due to time limitation I have not integrated all the APIs to Portal but fundamental flows are ready. The UI is currently not fancy,
+just a basic one for flow illustration.
+
+Let's look at Employer flow. Let's say _kiennt96_ has role Employer, so he can view all the tasks (click below to see a demo):
+
+![Employer Role](videos/Employer.mp4)
+
+Another is Employee flow. Let's say __kiennt97_ has role Employee, so he can only see tasks assigned to him (click below to see a demo):
+
+![Employee Role](videos/Employee.mp4)
+
+Note: I use SessionStorage to store tokens instead of LocalStorage for a better security.
+
+### 4.6 Dockerization and deployment
 Dockerfile
 ```dockerfile
 FROM python:3.8.0b1-slim-stretch
@@ -666,7 +718,7 @@ Deploy using docker-compose
 ```shell
 docker-compose up -d
 ```
-### 4.6 Others
+### 4.7 Others
 - __Pagination__ is applied to every API.
 - I always implement a __healthz api__ for a service to monitor service's health.
-- __Prometheus__ is used to collect metrics on service performance. 
+- __Prometheus__ is used to collect metrics on service performance.
