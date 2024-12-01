@@ -650,11 +650,11 @@ just a basic one for flow illustration.
 
 Let's look at Employer flow. Let's say _kiennt96_ has role Employer, so he can view all the tasks (click below to see a demo):
 
-![Employer Role](videos/Employer.mp4)
+![Employer Role](https://youtu.be/fAuATdrq2vk)
 
 Another is Employee flow. Let's say __kiennt97_ has role Employee, so he can only see tasks assigned to him (click below to see a demo):
 
-![Employee Role](videos/Employee.mp4)
+![Employee Role](https://youtu.be/ga1CzEu_UTQ)
 
 Note: I use SessionStorage to store tokens instead of LocalStorage for a better security.
 
