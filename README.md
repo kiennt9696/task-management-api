@@ -650,11 +650,15 @@ just a basic one for flow illustration.
 
 Let's look at Employer flow. Let's say _kiennt96_ has role Employer, so he can view all the tasks (click below to see a demo):
 
-<iframe width="560" height="315" src="https://youtu.be/fAuATdrq2vk" frameborder="0" allowfullscreen></iframe>
+![](images/employer_1.gif)
+![](images/employer_2.gif)
+[Full Employer Flow](https://youtu.be/fAuATdrq2vk)
 
 Another is Employee flow. Let's say __kiennt97_ has role Employee, so he can only see tasks assigned to him (click below to see a demo):
 
-<iframe width="560" height="315" src="https://youtu.be/ga1CzEu_UTQ" frameborder="0" allowfullscreen></iframe>
+![](images/employee_1.gif)
+![](images/employee_2.gif)
+[Full Employee Flow](https://youtu.be/ga1CzEu_UTQ)
 
 Note: I use SessionStorage to store tokens instead of LocalStorage for a better security.
 
