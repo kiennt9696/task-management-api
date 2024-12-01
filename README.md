@@ -441,7 +441,7 @@ Along with that, within Oauth2 flow, Client must be verified is a security plus.
 When data grows up, especially with SQL database, Postgres as I use in this, system performance may go down significantly.
 The solutions I suggest includes:
 - Sharding data into multiple nodes (this may introduce some overheads on application layer)
-- Adding replica for read sharing load
+- Adding replicas for sharing read workload
 - Caching
 - __Archival Service__: for this system we prioritize tasks with task not completed. For completed ones, 
   they are rarely modified and eventual consistency is acceptable so let's move them to
