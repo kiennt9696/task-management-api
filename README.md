@@ -726,3 +726,4 @@ docker-compose up -d
 - __Pagination__ is applied to every API.
 - I always implement a __healthz api__ for a service to monitor service's health.
 - __Prometheus__ is used to collect metrics on service performance.
+- Using https to protect data.
