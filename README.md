@@ -1,5 +1,21 @@
-# Task Management API Challenge
+# Task Management with Role-Based Access
+This project is a Task Management (like Jira) to handle two types of users: Employer and Employee, each with specific functionalities. It allows employees to view and update tasks assigned to them, while employers can manage tasks, assign them to employees, and filter/sort tasks based on different criteria.
 
+Features:
+
+- Employee Role:
+  + Can view only their assigned tasks.
+  + Can update the status of their tasks (e.g., "In Progress," "Completed").
+- Employer Role:
+  + Can create and assign tasks to employees.
+  + Can view all tasks with filtering and sorting options:
+  + Filter: By assignee, by status.
+  + Sort: By date or status.
+  + Can view a summary of each employee's task performance, showing the total number of tasks assigned and completed.
+- Role-Based Access Control
+  + Each role should have a predefined collection of permission and can be extendable as well as scalable.
+
+---------------------------------------
 Four services in this system:
 
 __Task API Management__: https://github.com/kiennt9696/task.git
@@ -50,7 +66,7 @@ Common package is used for 3 projects (TaskAPI, Authenticator, Safekeeper): http
 
 ## 1. Authentication & Authorization with Role-Based Access Control (RBAC)
 ### 1.1 Authentication & Authorization Flow
-In this assignment, I use a basic authentication with username and password 
+In this current system, I use a basic authentication with username and password 
 for ease of demonstration. Later on, we can integrate any OIDC provider with
 this system for authorization with RBAC. The flow is as follows:
 
@@ -65,7 +81,7 @@ verifies then grants _access token_ if RBAC is satisfied.
 I use __Oauth2__ with __Authorization Code__ grant. It helps to manage clients 
 that want to be authorized via our service and make this flow more secured.
 In my implementation, I prefer this flow but simplify it to focus more on RBAC,
-which is the primary goal of this assignment.
+which is the primary goal of this system.
 
 ### 1.2 Database design for RBAC
 
@@ -80,7 +96,7 @@ Tables and their meanings:
 
 - __Permission__: defines permissions that __Role__ may have
 
-- __PermissionObject__: defines kind of resources that users want to access, i.e Task in this assignment
+- __PermissionObject__: defines kind of resources that users want to access, i.e Task in this system
 
 - __PermissionAction__: manages actions that can be operated on resources (__PermissionObject__), i.e read, edit, delete, create, etc.
 
